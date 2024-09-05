@@ -30,4 +30,17 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  Micropost_Feed: "Micropost Feed"
+  view_my_profile: "view my profile"
+  micropost: "micropost"
+  following: "following"
+  followers: "followers"
+  Home: "Home"
+  Help: "Help"
+  Users: "Users"
+  Account: "Account"
+  Profile: "Profile"
+  Settings: "Settings"
+  Log out: "Log out"
+  Log in: "Log in"
+  Post: "Post"

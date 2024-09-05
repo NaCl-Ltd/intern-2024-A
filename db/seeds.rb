@@ -1,5 +1,5 @@
 # メインのサンプルユーザーを1人作成する
-User.create!(name:  "Example User",
+User.create!(name:  "#{I18n.t'Example User'}",
   email: "example@railstutorial.org",
   password:              "foobar",
   password_confirmation: "foobar",
