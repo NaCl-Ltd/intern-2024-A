@@ -74,7 +74,8 @@ class PasswordUpdateTest < PasswordResetForm
     patch password_reset_path(@reset_user.reset_token),
           params: { email: @reset_user.email,
                     user: { password:              "foobaz",
-                            password_confirmation: "barquux" } }
+                            password_confirmation: "barquux" }, 
+                    introduction: @reset_user.introduction}
     assert_select 'div#error_explanation'
   end
 
@@ -82,7 +83,8 @@ class PasswordUpdateTest < PasswordResetForm
     patch password_reset_path(@reset_user.reset_token),
           params: { email: @reset_user.email,
                     user: { password:              "",
-                            password_confirmation: "" } }
+                            password_confirmation: "" }, 
+                    introduction: @reset_user.introduction}
     assert_select 'div#error_explanation'
   end
 
@@ -90,7 +92,8 @@ class PasswordUpdateTest < PasswordResetForm
     patch password_reset_path(@reset_user.reset_token),
           params: { email: @reset_user.email,
                     user: { password:              "foobaz",
-                            password_confirmation: "foobaz" } }
+                            password_confirmation: "foobaz" }, 
+                    introduction: @reset_user.introduction}
     assert is_logged_in?
     assert_not flash.empty?
     assert_redirected_to @reset_user
