@@ -1,6 +1,7 @@
 class MicropostsController < ApplicationController
-  before_action :logged_in_user, only: [:create, :destroy]
-  before_action :correct_user,   only: :destroy
+  before_action :logged_in_user, only: %i[create destroy news toggle_pin]
+  before_action :logged_in_user, only: [:create, :pinn]
+  before_action :correct_user,   only: %i[destroy toggle_pin ]
 
   def create
     @micropost = current_user.microposts.build(micropost_params)
@@ -23,8 +24,20 @@ class MicropostsController < ApplicationController
       redirect_to request.referrer, status: :see_other
     end
   end
+ 
+  def news
+    @microposts = Micropost.includes(:user, image_attachment: :blob)
+    .where(user_id: current_user.following_ids, created_at: 48.hours.ago..)
+    .reorder('created_at DESC')
+    .limit(Settings.news.count)
+  end
 
+  def toggle_pin
+    @micropost.toggle(:is_pinned).save!
+    redirect_to root_path
+  end
   private
+  
 
     def micropost_params
       params.require(:micropost).permit(:content, :image)
