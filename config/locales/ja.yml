@@ -1,7 +1,7 @@
 ja:
   Micropost_Feed: "投稿一覧"
   view_my_profile: "プロフィールを見る"
-  micropost: "投稿"
+  Microposts: "投稿"
   following: "フォロー"
   followers: "フォロワー"
   Home: "ホーム"
@@ -10,6 +10,6 @@ ja:
   Account: "アカウント"
   Profile: "プロフィール"
   Settings: "設定"
-  Log out: "ログアウト"
-  Log in: "ログイン"
+  Log_Out: "ログアウト"
+  Log_in: "ログイン"
   Post: "ポスト"
