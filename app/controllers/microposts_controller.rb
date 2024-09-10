@@ -20,9 +20,11 @@ class MicropostsController < ApplicationController
     flash[:success] = "Micropost deleted"
     if request.referrer.nil?
       redirect_to root_url, status: :see_other
-    else
-      redirect_to request.referrer, status: :see_other
     end
+  end
+
+  def show
+    @feed_item = Micropost.find_by(id: params[:id])
   end
  
   def news
@@ -47,4 +49,4 @@ class MicropostsController < ApplicationController
       @micropost = current_user.microposts.find_by(id: params[:id])
       redirect_to root_url, status: :see_other if @micropost.nil?
     end
-end
+  end

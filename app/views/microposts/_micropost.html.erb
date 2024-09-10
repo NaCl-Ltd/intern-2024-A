@@ -13,7 +13,7 @@
       <%= link_to "delete", micropost, data: { "turbo-method": :delete,
                                                turbo_confirm: "You sure?" } %>
       <%= link_to micropost.is_pinned ? "解除する" : "固定する",  toggle_pin_micropost_path(micropost), data: { "turbo-method": :patch } %>  
-      
+      <%= link_to "・・・", micropost_path(micropost)%>
     <% end %>
   </span>
 </li>
