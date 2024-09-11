@@ -15,6 +15,16 @@ class MicropostsController < ApplicationController
     end
   end
 
+  def latest
+    user = current_user.following
+    number = 10
+    time = 48 * 3600 #48時間前
+    @microposts = Micropost
+                    .where(user: user)#, created_at: Time.zone.now - time)
+                    .order(created_at: :desc)
+                    .limit(number)
+  end
+
   def destroy
     @micropost.destroy
     flash[:success] = "Micropost deleted"
