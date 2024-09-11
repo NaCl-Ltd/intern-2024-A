@@ -1,5 +1,11 @@
 <% provide(:title, 'All users') %>
+
 <h1>All users</h1>
+
+<%= form_with url: users_path, method: :get do |f| %>
+    <%= f.text_field :search %>
+    <%= f.submit t('Search'), class: "btn btn-primary" %>
+<% end %>
 
 <%= will_paginate %>
 

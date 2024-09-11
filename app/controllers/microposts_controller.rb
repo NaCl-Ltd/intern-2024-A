@@ -36,6 +36,14 @@ class MicropostsController < ApplicationController
     @micropost.toggle(:is_pinned).save!
     redirect_to root_path
   end
+
+  def show
+    @feed_item = Micropost.find_by(id: params[:id])
+    if @feed_item.nil?
+      redirect_to root_path
+    end
+  end
+
   private
   
 
