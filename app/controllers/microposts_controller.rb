@@ -34,13 +34,21 @@ class MicropostsController < ApplicationController
       redirect_to request.referrer, status: :see_other
     end
   end
- 
+
   def news
     @microposts = Micropost.includes(:user, image_attachment: :blob)
     .where(user_id: current_user.following_ids, created_at: 48.hours.ago..)
     .reorder('created_at DESC')
     .limit(Settings.news.count)
   end
+
+
+  def show
+  @feed_item = Micropost.find_by(id: params[:id])
+    if @feed_item.nil?
+      redirect_to root_url, status: :see_other   
+  end
+end
 
   def toggle_pin
     @micropost.toggle(:is_pinned).save!
