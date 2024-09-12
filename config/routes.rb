@@ -13,15 +13,17 @@ Rails.application.routes.draw do
   resources :users do
     member do
       get :following, :followers
+       get 'show_all'
     end
   end
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
-  resources :microposts,          only: [:create, :destroy, :show]  do
+  resources :microposts,          only: [:create, :destroy, :show, :index]  do
     member do
       patch :toggle_pin
     end
   end
+  
   resources :relationships,       only: [:create, :destroy]
   get '/microposts', to: 'static_pages#home'
   get '/:locale' => 'static_pages#home'

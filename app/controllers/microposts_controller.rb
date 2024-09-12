@@ -3,6 +3,11 @@ class MicropostsController < ApplicationController
   before_action :logged_in_user, only: [:create, :pinn]
   before_action :correct_user,   only: %i[destroy toggle_pin ]
 
+  def index
+    @micropost  = current_user.microposts.build
+    @feed_items = current_user.feed.order(created_at: :desc)
+  end
+
   def create
     @micropost = current_user.microposts.build(micropost_params)
     @micropost.image.attach(params[:micropost][:image])
@@ -10,7 +15,7 @@ class MicropostsController < ApplicationController
       flash[:success] = "Micropost created!"
       redirect_to root_url
     else
-      @feed_items = current_user.feed.paginate(page: params[:page])
+      @feed_items = current_user.feed.order(created_at: :desc).limit(10) 
       render 'static_pages/home', status: :unprocessable_entity
     end
   end

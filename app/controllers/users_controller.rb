@@ -11,7 +11,12 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @microposts = @user.microposts.paginate(page: params[:page])
+    @microposts = @user.microposts.order(created_at: :desc).limit(10)
+  end
+
+  def show_all
+    @user = User.find(params[:id])
+    @microposts = @user.microposts.order(created_at: :desc)
   end
 
   def new
@@ -67,12 +72,7 @@ class UsersController < ApplicationController
     @users = @user.introduction.paginate(page: params[:page])
     render 'show_introduction', status: :unprocessable_entity
   end
-  #def followers
-    #@title = "New"
-    #@user  = User.find(params[:id])
-    #@users = @user.new.paginate(page: params[:page])
-    #render 'show_new', status: :unprocessable_entity
-  #end
+ 
 
   private
 
