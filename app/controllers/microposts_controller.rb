@@ -5,7 +5,6 @@ class MicropostsController < ApplicationController
 
   def create
     @micropost = current_user.microposts.build(micropost_params)
-    @micropost.image.attach(params[:micropost][:image])
     if @micropost.save
       flash[:success] = "Micropost created!"
       redirect_to root_url
@@ -36,7 +35,7 @@ class MicropostsController < ApplicationController
   end
  
   def news
-    @microposts = Micropost.includes(:user, image_attachment: :blob)
+    @microposts = Micropost.includes(:user, images_attachments: :blob)
     .where(user_id: current_user.following_ids, created_at: 48.hours.ago..)
     .reorder('created_at DESC')
     .limit(Settings.news.count)
@@ -55,10 +54,9 @@ class MicropostsController < ApplicationController
   end
 
   private
-  
 
     def micropost_params
-      params.require(:micropost).permit(:content, :image)
+      params.require(:micropost).permit(:content, images: [])
     end
 
     def correct_user
