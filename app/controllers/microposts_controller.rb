@@ -3,13 +3,18 @@ class MicropostsController < ApplicationController
   before_action :logged_in_user, only: [:create, :pinn]
   before_action :correct_user,   only: %i[destroy toggle_pin ]
 
+  def index
+    @micropost  = current_user.microposts.build
+    @feed_items = current_user.feed.order(created_at: :desc)
+  end
+
   def create
     @micropost = current_user.microposts.build(micropost_params)
     if @micropost.save
       flash[:success] = "Micropost created!"
       redirect_to root_url
     else
-      @feed_items = current_user.feed.paginate(page: params[:page])
+      @feed_items = current_user.feed.order(created_at: :desc).limit(10) 
       render 'static_pages/home', status: :unprocessable_entity
     end
   end
@@ -33,13 +38,21 @@ class MicropostsController < ApplicationController
       redirect_to request.referrer, status: :see_other
     end
   end
- 
+
   def news
     @microposts = Micropost.includes(:user, images_attachments: :blob)
     .where(user_id: current_user.following_ids, created_at: 48.hours.ago..)
     .reorder('created_at DESC')
     .limit(Settings.news.count)
   end
+
+
+  def show
+  @feed_item = Micropost.find_by(id: params[:id])
+    if @feed_item.nil?
+      redirect_to root_url, status: :see_other   
+  end
+end
 
   def toggle_pin
     @micropost.toggle(:is_pinned).save!
